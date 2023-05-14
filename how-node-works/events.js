@@ -50,14 +50,14 @@ server.on('request', (req, res) => {
 })
 
 server.on('request', (req, res) => {  
-  res.end('Another Request')
+  console.log('Another Request')
 })
 
 server.on('close', (req, res) => {
   console.log('Server closed!');  
 })
 
-// start server
+// start server, event loop is waiting for incoming Input/Output
 server.listen(8000, '127.0.0.1', () => {
   console.log('Waiting for request...');
 })
