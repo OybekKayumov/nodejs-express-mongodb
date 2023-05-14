@@ -1,6 +1,15 @@
 const EventEmitter = require('events');
 
-const myEmitter = new EventEmitter();
+// const myEmitter = new EventEmitter();
+
+class Sales extends EventEmitter {  // EventEmitter is super class
+  constructor() {
+    super();
+    
+  }
+}
+
+const myEmitter = new Sales();
 
 myEmitter.on('newSale', () => {
   console.log('There was a new sale!');
@@ -25,3 +34,7 @@ myEmitter.emit('newSale', 9);
 // There was a new sale!
 // Customer name: John
 // There are now 9 items left in stock.
+
+
+//
+// create small web server and listen to the event
