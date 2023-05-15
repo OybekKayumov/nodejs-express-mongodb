@@ -25,3 +25,4 @@ const Calculator = require('./test-module-1.js');
 const calc1 = new Calculator();
 
 console.log('add: ',calc1.add(2, 5));
+// add:  7
