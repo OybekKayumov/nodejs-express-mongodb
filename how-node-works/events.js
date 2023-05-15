@@ -61,3 +61,16 @@ server.on('close', (req, res) => {
 server.listen(8000, '127.0.0.1', () => {
   console.log('Waiting for request...');
 })
+
+
+// 36. Introduction to Streams
+// streams used to process (read and write) data piece by piece (chunks), without completing the whole read or write operation, and therefore without keeping all the data in memory
+
+// - perfect for handling large volumes of data, for example videos;
+// - more efficient data processing in terms of memory (no need to keep all data in memory) and time (we don't have to wait until all the data is available)
+
+// 4 types
+// readable streams
+// writable streams
+// duplex streams
+// transform streams
