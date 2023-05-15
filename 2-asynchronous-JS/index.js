@@ -30,7 +30,6 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
   superagent
     .get(`https://dog.ceo/api/breed/${data}/images/random`)
       .then(res => {
-        if (err) return console.log(err.message);
         console.log(res.body.message);
 
         // save img to file
@@ -40,7 +39,8 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
         })
       })
       .catch(err => {
-        
+        console.log(err.message);
       })
 });
 
+// 43. Building Promises
