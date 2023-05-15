@@ -20,9 +20,16 @@
 //   '\n});'
 // ]
 
-// 3
+// 3 modules exports
 const Calculator = require('./test-module-1.js');
 const calc1 = new Calculator();
 
-console.log('add: ',calc1.add(2, 5));
+console.log('calc1: ',calc1.add(2, 5));
 // add:  7
+
+// exports
+const calc2 = require('./test-module-2.js')
+const {add, multiply, divide} = require('./test-module-2.js')
+// console.log('calc2: ', calc2.add(3, 5));
+console.log('calc2: ', multiply(3, 5));
+console.log('calc2: ', divide(3, 5));
