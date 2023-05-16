@@ -97,15 +97,26 @@ const getDogPic = async () => {
   } catch (err) {
     console.log(err);
   }
-  
+
+  return '2: Ready...'
 }
 
 console.log('1: Will get dog pics!');
-getDogPic();
-console.log('2: Done getting dog pics!');
+const x = getDogPic();
+console.log('x: ', x);
+console.log('3: Done getting dog pics!');
 
+// 1
 // 1: Will get dog pics!      // !
 // 2: Done getting dog pics!  // !
 // Breed: retriever
 // https://images.dog.ceo/breeds/retriever-chesapeake/n02099849_3645.jpg                                                               jpg 
+// Random dog image saved to file...
+
+// 2
+// 1: Will get dog pics!
+// x:  Promise { <pending> }      // !
+// 3: Done getting dog pics!
+// Breed: retriever
+// https://images.dog.ceo/breeds/retriever-golden/nina.jpg
 // Random dog image saved to file...
