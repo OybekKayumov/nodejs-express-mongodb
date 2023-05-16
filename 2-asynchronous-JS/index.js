@@ -103,6 +103,7 @@ const getDogPic = async () => {
   return '2: Ready...'
 }
 
+/*
 console.log('1: Will get dog pics!');
 // const x = getDogPic();
 getDogPic().then(x => {
@@ -111,6 +112,7 @@ getDogPic().then(x => {
 }).catch(err => {
   console.log('ERROR: ', err);
 })
+*/
 
 // 1
 // 1: Will get dog pics!      // !
@@ -131,6 +133,26 @@ getDogPic().then(x => {
 // 1: Will get dog pics!
 // Breed: retriever
 // https://images.dog.ceo/breeds/retriever-golden/n02099601_2029.jpg 
+// Random dog image saved to file...
+// x:  2: Ready...
+// 3: Done getting dog pics!
+
+(async () => {
+  try {
+    console.log('1: Will get dog pics!');
+    
+    const x = await getDogPic();
+    console.log('x: ', x);
+    
+    console.log('3: Done getting dog pics!');
+  } catch (err) {
+    console.log('Error: ', err );
+  }
+})();
+
+// 1: Will get dog pics!
+// Breed: retriever
+// https://images.dog.ceo/breeds/retriever-flatcoated/n02099267_2453.jpg
 // Random dog image saved to file...
 // x:  2: Ready...
 // 3: Done getting dog pics!
