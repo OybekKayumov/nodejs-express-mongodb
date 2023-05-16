@@ -96,15 +96,21 @@ const getDogPic = async () => {
     console.log('Random dog image saved to file...');
   } catch (err) {
     console.log(err);
+
+    throw(err)
   }
 
   return '2: Ready...'
 }
 
 console.log('1: Will get dog pics!');
-const x = getDogPic();
-console.log('x: ', x);
-console.log('3: Done getting dog pics!');
+// const x = getDogPic();
+getDogPic().then(x => {
+  console.log('x: ', x);
+  console.log('3: Done getting dog pics!');
+}).catch(err => {
+  console.log('ERROR: ', err);
+})
 
 // 1
 // 1: Will get dog pics!      // !
@@ -120,3 +126,11 @@ console.log('3: Done getting dog pics!');
 // Breed: retriever
 // https://images.dog.ceo/breeds/retriever-golden/nina.jpg
 // Random dog image saved to file...
+
+// 3
+// 1: Will get dog pics!
+// Breed: retriever
+// https://images.dog.ceo/breeds/retriever-golden/n02099601_2029.jpg 
+// Random dog image saved to file...
+// x:  2: Ready...
+// 3: Done getting dog pics!
