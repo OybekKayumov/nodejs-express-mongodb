@@ -65,6 +65,7 @@ const writeFilePromise = (file, data) => {
   });
 };
 
+/*
 readFilePromise(`${__dirname}/dog.txt`)
   .then(data => {
     console.log(`Breed: ${data}`);
@@ -80,3 +81,20 @@ readFilePromise(`${__dirname}/dog.txt`)
   .catch(err => {
     console.log(err);
   })
+*/
+
+// 44. Consuming Promises with Async/Await
+const getDogPic = async () => {
+  const data = await readFilePromise(`${__dirname}/dog.txt`)
+  console.log(`Breed: ${data}`);
+
+  const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+  console.log(res.body.message);
+
+  await writeFilePromise('dog-img.txt', res.body.message)
+  console.log('Random dog image saved to file...');
+
+}
+
+getDogPic();
+
