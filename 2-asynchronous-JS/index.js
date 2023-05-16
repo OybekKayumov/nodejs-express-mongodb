@@ -84,15 +84,43 @@ readFilePromise(`${__dirname}/dog.txt`)
 */
 
 // 44. Consuming Promises with Async/Await
+// const getDogPic = async () => {
+//   try {
+//     const data = await readFilePromise(`${__dirname}/dog.txt`)
+//     console.log(`Breed: ${data}`);
+    
+//     const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+//     console.log(res.body.message);
+    
+//     await writeFilePromise('dog-img.txt', res.body.message)
+//     console.log('Random dog image saved to file...');
+//   } catch (err) {
+//     console.log(err);
+
+//     throw(err)
+//   }
+
+//   return '2: Ready...'
+// }
+
+//
 const getDogPic = async () => {
   try {
     const data = await readFilePromise(`${__dirname}/dog.txt`)
     console.log(`Breed: ${data}`);
     
-    const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
-    console.log(res.body.message);
+    const res1Promise = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+    const res2Promise = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+    const res3Promise = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+
+    const all = await Promise.all([res1Promise, res2Promise, res3Promise]);
+    const imgs = all.map(img => img.body.message)
+    console.log('all Promises: ', imgs);
     
-    await writeFilePromise('dog-img.txt', res.body.message)
+    // console.log(res.body.message);
+    
+    // await writeFilePromise('dog-img.txt', res.body.message)
+    await writeFilePromise('dog-img.txt', imgs.join('\n'));
     console.log('Random dog image saved to file...');
   } catch (err) {
     console.log(err);
@@ -102,6 +130,8 @@ const getDogPic = async () => {
 
   return '2: Ready...'
 }
+
+
 
 /*
 console.log('1: Will get dog pics!');
@@ -137,6 +167,7 @@ getDogPic().then(x => {
 // x:  2: Ready...
 // 3: Done getting dog pics!
 
+// 
 (async () => {
   try {
     console.log('1: Will get dog pics!');
@@ -156,3 +187,6 @@ getDogPic().then(x => {
 // Random dog image saved to file...
 // x:  2: Ready...
 // 3: Done getting dog pics!
+
+// 46. Waiting for Multiple Promises Simultaneously
+
