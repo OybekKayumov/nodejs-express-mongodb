@@ -97,6 +97,15 @@ const getDogPic = async () => {
   } catch (err) {
     console.log(err);
   }
+  
 }
 
+console.log('1: Will get dog pics!');
 getDogPic();
+console.log('2: Done getting dog pics!');
+
+// 1: Will get dog pics!      // !
+// 2: Done getting dog pics!  // !
+// Breed: retriever
+// https://images.dog.ceo/breeds/retriever-chesapeake/n02099849_3645.jpg                                                               jpg 
+// Random dog image saved to file...
