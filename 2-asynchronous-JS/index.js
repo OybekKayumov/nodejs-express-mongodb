@@ -131,8 +131,18 @@ const getDogPic = async () => {
   return '2: Ready...'
 }
 
+// 1: Will get dog pics!
+// Breed: retriever
+// all Promises:  [
+//   'https://images.dog.ceo/breeds/retriever-golden/n02099601_7654.jpg',
+//   'https://images.dog.ceo/breeds/retriever-golden/n02099601_342.jpg',
+//   'https://images.dog.ceo/breeds/retriever-golden/n02099601_3388.jpg'
+// ]
+// Random dog image saved to file...
+// x:  2: Ready...
+// 3: Done getting dog pics!
 
-
+//
 /*
 console.log('1: Will get dog pics!');
 // const x = getDogPic();
