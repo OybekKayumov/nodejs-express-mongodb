@@ -8,11 +8,11 @@ const app = express();
 // here data from the body is added to request object
 app.use(express.json());
 
-app.use((req, res, next) => {
-  console.log('Hello from middleware!');
+// app.use((req, res, next) => {
+//   console.log('Hello from middleware!');
 
-  next();
-})
+//   next();
+// })
 
 // read data and convert to array of JS object
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`))
@@ -109,6 +109,12 @@ app
   .route('/api/v1/tours')
   .get(getAllTours)
   .post(createTour);
+
+app.use((req, res, next) => {
+  console.log('Hello from middleware!');
+
+  next();
+})
 
 app
   .route('/api/v1/tours/:id')
