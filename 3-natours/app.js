@@ -7,9 +7,6 @@ const app = express();
 // 1. Middlewares
 app.use(morgan('dev'));
 
-// middleware is basically function that can modify the incoming request data
-// it stands between, in the middle of the request and response
-// here data from the body is added to request object
 app.use(express.json());
 
 app.use((req, res, next) => {
@@ -155,19 +152,20 @@ const deleteUser = (req, res) => {
 // app.patch('/api/v1/tours/:id', updateTour);
 // app.delete('/api/v1/tours/:id', deleteTour);
 
-app
-  .route('/api/v1/tours')
+app.use('/api/v1/tours', tourRouter);
+const tourRouter = express.Router();
+
+// app
+tourRouter
+  // .route('/api/v1/tours')
+  .route('/')
   .get(getAllTours)
   .post(createTour);
 
-// app.use((req, res, next) => {
-//   console.log('Hello from middleware!');
-
-//   next();
-// })
-
-app
-  .route('/api/v1/tours/:id')
+// app
+tourRouter
+  // .route('/api/v1/tours/:id')
+  .route('/:id')
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
@@ -188,19 +186,3 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 })
-
-// 58. Middleware and the Request-Response Cycle
-
-//                 |        // Middleware Stack         |
-//    Request -->     middleware     middleware    middleware   -->  Response
-// req obj, res obj   next()         next()        res.send(...)
-                   // parsing body   logging       router
-                   //                setting headers
-
-// |                 Request-Response Cycle                              |
-
-// everything is middleware, even routes
-// Order as defined in code
-// Pipeline - data go through from request to final response
-
-// 59. Creating Our Own Middleware
