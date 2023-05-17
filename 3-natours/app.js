@@ -8,6 +8,12 @@ const app = express();
 // here data from the body is added to request object
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log('Hello from middleware!');
+
+  next();
+})
+
 // read data and convert to array of JS object
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`))
 
