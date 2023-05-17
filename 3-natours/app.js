@@ -114,3 +114,19 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 })
+
+// 58. Middleware and the Request-Response Cycle
+
+//                 |        // Middleware Stack         |
+//    Request -->     middleware     middleware    middleware   -->  Response
+// req obj, res obj   next()         next()        res.send(...)
+                   // parsing body   logging       router
+                   //                setting headers
+
+// |                 Request-Response Cycle                              |
+
+// everything is middleware, even routes
+// Order as defined in code
+// Pipeline - data go through from request to final response
+
+// 59. Creating Our Own Middleware
