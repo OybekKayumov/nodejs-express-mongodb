@@ -20,7 +20,7 @@ const getAllTours = (req, res) => {
       tours: tours
     }
   })
-}
+};
 
 const getTour = (req, res) => {
   console.log('req.params: ', req.params );
@@ -41,12 +41,9 @@ const getTour = (req, res) => {
       tours: tour
     }
   });
-}
+};
 
-app.get('/api/v1/tours', getAllTours);
-app.get('/api/v1/tours/:id', getTour);
-
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   console.log(req.body);
   // new tour
   const newId = tours[tours.length -1].id + 1;
@@ -64,11 +61,9 @@ app.post('/api/v1/tours', (req, res) => {
         }
        })
   })
+};
 
-  // res.send('Done');
-})
-
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
       status: 'fail',
@@ -82,9 +77,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
       tour: '<Updated tour here...>'
     }
   })
-})
+};
 
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   if (req.params.id * 1 > tours.length) {
     return res.status(404).json({
       status: 'fail',
@@ -96,13 +91,15 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     status: 'success',
     data: null,
   })
-})
+};
+
+app.get('/api/v1/tours', getAllTours);
+app.get('/api/v1/tours/:id', getTour);
+app.post('/api/v1/tours', createTour);
+app.patch('/api/v1/tours/:id', updateTour);
+app.delete('/api/v1/tours/:id', deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 })
-
-
-// patch - partial data will be updated without changing the whole data
-// put - update the whole resource
