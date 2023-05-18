@@ -7,17 +7,22 @@ const router = express.Router();
 
 
 // 64. Param Middleware
-// papram middleware is middleware that only tuns for certain parameters
+// param middleware is middleware that only tuns for certain parameters
 // for example: id.
 // we can write middleware that only runs when this id present in the URL
 router.param('id', tourController.checkID)
+
+// create a checkBody middleware
+// check if body contains the name and price property
+// if not, send back 400 - bad request
+// add it to the post handler stack
 
 // tourRouter
 router
   // .route('/api/v1/tours')
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post(tourController.checkBody, tourController.createTour);
 
 // tourRouter
 router
