@@ -1,7 +1,9 @@
+const dotenv = require('dotenv');
 const app = require('./app');
 
 // 67. Environment Variables
-console.log('app.get.env: ', app.get('env')); // app.get.env:  development
+dotenv.config({ path: './config.env' });
+// console.log('app.get.env: ', app.get('env')); // app.get.env:  development
 console.log('process.env: ', process.env); // ...
 
 // Start Server
