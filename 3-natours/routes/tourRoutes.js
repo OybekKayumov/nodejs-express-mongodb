@@ -10,11 +10,7 @@ const router = express.Router();
 // papram middleware is middleware that only tuns for certain parameters
 // for example: id.
 // we can write middleware that only runs when this id present in the URL
-router.param('id', (req,res, next, val) => {
-  console.log(`Tour id is ${val}`);
-  
-  next();
-})
+router.param('id', tourController.checkID)
 
 // tourRouter
 router
