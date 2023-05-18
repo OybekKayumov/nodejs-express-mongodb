@@ -1,4 +1,5 @@
-const fs = require('fs');
+/* eslint-disable prettier/prettier */
+// const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
 
