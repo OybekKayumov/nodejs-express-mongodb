@@ -94,4 +94,12 @@ app.listen(port, () => {
 // 68. Setting up ESLint + Prettier in VS Code
 // esLint is a program that constantly scans code and finds potential coding errors or bad coding practices that it thinks are wrong
 
-// Intro to Back-End Architecture: MVC, Types of Logic, and More
+// 87. Intro to Back-End Architecture: MVC, Types of Logic, and More
+// Model -  application data, how app works  - business logic
+// Controllers - to handle application's request, interact with models, and send back responses to the client - application logic.
+// View is necessary if we have a graphical interface in app. Website that web-server send back to the client - presentation logic.
+
+// request  -->  routers  --> Controller  <--> Model   ---> response
+//                            Controller  <-->  View
+
+ 
