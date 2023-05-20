@@ -3,44 +3,6 @@
 const fs = require('fs');
 const Tour = require('./../models/tourModel');
 
-// read data and convert to array of JS object
-// const tours = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
-// );
-
-
-
-//
-// exports.checkID = (req, res, next, val) => {
-//   console.log(`Tour id is ${val}`);
-
-//   if (req.params.id * 1 > tours.length) {
-//     return res.status(404).json({
-//       // ! important to return - finish here
-//       status: 'fail',
-//       message: 'Invalid ID',
-//     });
-//   }
-
-//   next();
-// };
-
-// create a checkBody middleware
-// check if body contains the name and price property
-// if not, send back 400 - bad request
-// add it to the post handler stack
-
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'Missing name or price'
-    });
-  }
-
-  next();
-};
-
 exports.getAllTours = (req, res) => {
   console.log('req.requestTime: ', req.requestTime );
   // send back to client
@@ -75,18 +37,15 @@ exports.getTour = (req, res) => {
   });
 };
 
-exports.createTour = (req, res) => {
-  console.log(req.body);
-  // new tour
-  const newId = tours[tours.length -1].id + 1;
-  const newTour = Object.assign({id: newId}, req.body)
+exports.createTour = async (req, res) => {
+  try {
+    // create 1
+    // const newTour = new Tour({});
+    // newTour.save().than().catch();
 
-  // push new tour into the array
-  tours.push(newTour);
+    // create 2
+    const newTour = await Tour.create(req.body);
 
-  // eslint-disable-next-line no-unused-vars
-  fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), err => {
-    // 201 created
     res.status(201)
       .json({
         status: 'success',
@@ -94,16 +53,18 @@ exports.createTour = (req, res) => {
           tour: newTour,
         },
       });
-  });
+  } catch (err) {
+    // console.log('Error...: ', err);
+    res.status(400).json({
+      status: 'fail', 
+      message: 'Invalid data sent!...'
+    })
+  }
+  
+
 };
 
-exports.updateTour = (req, res) => {
-  // if (req.params.id * 1 > tours.length) {
-  //   return res.status(404).json({
-  //     status: 'fail',
-  //     message: 'Invalid ID ...'
-  //   });
-  // }
+exports.updateTour = (req, res) => {  
 
   res.status(200).json({
     status: 'success',
@@ -113,13 +74,7 @@ exports.updateTour = (req, res) => {
   });
 };
 
-exports.deleteTour = (req, res) => {
-  // if (req.params.id * 1 > tours.length) {
-  //   return res.status(404).json({
-  //     status: 'fail',
-  //     message: 'Invalid ID ...'
-  //   });
-  // }
+exports.deleteTour = (req, res) => {  
 
   res.status(204).json({  // no-content
     status: 'success',
