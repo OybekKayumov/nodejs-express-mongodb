@@ -68,6 +68,21 @@ const tourSchema = new mongoose.Schema({
 // model 
 const Tour = mongoose.model('Tour', tourSchema);
 
+// Creating Documents and Testing the Model
+// testTour document is an instance of the tour model
+const testTour = new Tour({
+  name: "The Forest Hiker 2",
+  rating: 4.7,
+  price: 497
+})
+
+// save to DB, and returns a promise   
+testTour.save().then(doc => {
+  console.log('doc: ', doc );
+}).catch(err => {
+  console.log('Error: ', err);
+});
+
 // Start Server
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
