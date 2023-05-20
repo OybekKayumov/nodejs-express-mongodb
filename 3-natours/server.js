@@ -45,7 +45,27 @@ const app = require('./app');
 // 67. Environment Variables
 // dotenv.config({ path: './config.env' });
 // console.log('app.get.env: ', app.get('env')); // app.get.env:  development
-console.log('process.env: ', process.env); // ...
+// console.log('process.env: ', process.env); // ...
+
+// 85. Creating a Simple Tour Mode
+// to create a model we need a schema
+const tourSchema = new mongoose.Schema({
+  name: {
+   type: String,
+   requires: [true,'A tour must have a name'], 
+   unique: true,
+  },
+  rating: {
+   type: Number,
+   default: 4.5
+  },
+  price: {
+   type: Number,
+   required: [true,'A tour must have a price']
+  },
+})
+
+// model 
 
 // Start Server
 const port = process.env.PORT || 3000;
@@ -55,4 +75,4 @@ app.listen(port, () => {
 
 // eslint-disable-next-line prettier/prettier
 // 68. Setting up ESLint + Prettier in VS Code
-// esLint is a programm that constantly scans code and finds potential coding errors or bad coding practices that it thinks are wrong
+// esLint is a program that constantly scans code and finds potential coding errors or bad coding practices that it thinks are wrong

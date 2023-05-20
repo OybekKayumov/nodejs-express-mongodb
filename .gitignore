@@ -40,7 +40,8 @@ build/Release
 
 dev-data/
 public/
-
+config.env
+/3-natours/config.env
 # Dependency directories
 node_modules/
 jspm_packages/
