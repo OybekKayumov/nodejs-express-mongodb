@@ -52,7 +52,7 @@ const app = require('./app');
 const tourSchema = new mongoose.Schema({
   name: {
    type: String,
-   requires: [true,'A tour must have a name'], 
+   requires: [true,'A tour must have a name...'], 
    unique: true,
   },
   rating: {
@@ -61,7 +61,7 @@ const tourSchema = new mongoose.Schema({
   },
   price: {
    type: Number,
-   required: [true,'A tour must have a price']
+   required: [true,'A tour must have a price...']
   },
 })
 
@@ -71,16 +71,17 @@ const Tour = mongoose.model('Tour', tourSchema);
 // Creating Documents and Testing the Model
 // testTour document is an instance of the tour model
 const testTour = new Tour({
-  name: "The Forest Hiker 2",
-  rating: 4.7,
-  price: 497
+  // name: "The Forest Hiker 2",
+  name: "The Park Camper",
+  // rating: 4.7,
+  price: 997
 })
 
 // save to DB, and returns a promise   
 testTour.save().then(doc => {
   console.log('doc: ', doc );
 }).catch(err => {
-  console.log('Error: ', err);
+  console.log('Error...: ', err);
 });
 
 // Start Server
@@ -92,3 +93,5 @@ app.listen(port, () => {
 // eslint-disable-next-line prettier/prettier
 // 68. Setting up ESLint + Prettier in VS Code
 // esLint is a program that constantly scans code and finds potential coding errors or bad coding practices that it thinks are wrong
+
+// Intro to Back-End Architecture: MVC, Types of Logic, and More
