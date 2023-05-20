@@ -1,7 +1,8 @@
+/* eslint-disable no-undef */
 /* eslint-disable prefer-object-spread */
 /* eslint-disable prettier/prettier */
 const fs = require('fs');
-const Tour = require('../models/tourModel');
+// const Tour = require('../models/tourModel');
 
 // read data and convert to array of JS object
 // const tours = JSON.parse(

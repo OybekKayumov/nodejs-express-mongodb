@@ -1,3 +1,4 @@
+/* eslint-disable import/no-useless-path-segments */
 /* eslint-disable prefer-object-spread */
 /* eslint-disable prettier/prettier */
 // const fs = require('fs');
