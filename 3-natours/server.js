@@ -49,40 +49,40 @@ const app = require('./app');
 
 // 85. Creating a Simple Tour Mode
 // to create a model we need a schema
-const tourSchema = new mongoose.Schema({
-  name: {
-   type: String,
-   requires: [true,'A tour must have a name...'], 
-   unique: true,
-  },
-  rating: {
-   type: Number,
-   default: 4.5
-  },
-  price: {
-   type: Number,
-   required: [true,'A tour must have a price...']
-  },
-})
+// const tourSchema = new mongoose.Schema({
+//   name: {
+//    type: String,
+//    requires: [true,'A tour must have a name...'], 
+//    unique: true,
+//   },
+//   rating: {
+//    type: Number,
+//    default: 4.5
+//   },
+//   price: {
+//    type: Number,
+//    required: [true,'A tour must have a price...']
+//   },
+// })
 
 // model 
-const Tour = mongoose.model('Tour', tourSchema);
+// const Tour = mongoose.model('Tour', tourSchema);
 
 // Creating Documents and Testing the Model
 // testTour document is an instance of the tour model
-const testTour = new Tour({
-  // name: "The Forest Hiker 2",
-  name: "The Park Camper",
-  // rating: 4.7,
-  price: 997
-})
+// const testTour = new Tour({
+//   // name: "The Forest Hiker 2",
+//   name: "The Park Camper",
+//   // rating: 4.7,
+//   price: 997
+// })
 
-// save to DB, and returns a promise   
-testTour.save().then(doc => {
-  console.log('doc: ', doc );
-}).catch(err => {
-  console.log('Error...: ', err);
-});
+// // save to DB, and returns a promise   
+// testTour.save().then(doc => {
+//   console.log('doc: ', doc );
+// }).catch(err => {
+//   console.log('Error...: ', err);
+// });
 
 // Start Server
 const port = process.env.PORT || 3000;

@@ -5,12 +5,11 @@ const tourController = require('./../controllers/tourController');
 
 const router = express.Router();
 
-
 // 64. Param Middleware
 // param middleware is middleware that only tuns for certain parameters
 // for example: id.
 // we can write middleware that only runs when this id present in the URL
-router.param('id', tourController.checkID)
+// router.param('id', tourController.checkID)
 
 // create a checkBody middleware
 // check if body contains the name and price property
