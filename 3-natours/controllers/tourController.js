@@ -8,8 +8,16 @@ exports.getAllTours = async (req, res) => {
   try {
     console.log('req.query: ', req.query);
 
-    const tours = await Tour.find();  // return all items
+    // const tours = await Tour.find();  // return all items
+    
+    // query 1
+    const tours = await Tour.find({
+      duration: 5,
+      difficulty: 'easy'
+    });
 
+    // query 2
+    
     res.status(200).json({
       status: 'success',
       results: tours.length,
