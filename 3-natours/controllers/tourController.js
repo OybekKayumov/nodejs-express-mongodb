@@ -44,8 +44,18 @@ exports.getAllTours = async (req, res) => {
     // { duration: { '$gte': '5' } }
 
     // const query = Tour.find(queryObj);  // returns query, that we can use later find, sort, limit and fields
-    const query = Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
     // http://127.0.0.1:3000/api/v1/tours?duration[gte]=5&difficulty=easy&price[lt]=1500
+
+    // 97. Making the API Better: Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      // query = query.sort(req.query.sort);
+      query = query.sort(sortBy);
+      // sort('price ratingsAverage')
+    }  else {
+      query = query.sort('-createdAt');
+    }
 
     //TODO: execute query
     const tours = await query;
