@@ -6,6 +6,8 @@ const Tour = require('./../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
+    console.log('req.query: ', req.query);
+
     const tours = await Tour.find();  // return all items
 
     res.status(200).json({
