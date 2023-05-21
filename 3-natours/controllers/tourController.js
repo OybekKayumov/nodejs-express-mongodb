@@ -22,15 +22,18 @@ exports.getAllTours = async (req, res) => {
     //   duration: 5,
     //   difficulty: 'easy'
     // });
-
-    const tours = await Tour.find(req.query);
-
+    
     // query 2
     // const tours = await Tour.find()
     //   .where('duration')
     //   .equals(5)
     //   .where('difficulty')
     //   .equals('easy')
+    
+    // const tours = await Tour.find(req.query);
+    // req.query:  { difficulty: 'easy', page: '2', limit: '1', sort: '1', fields: '2' } { difficulty: 'easy' }
+
+    const tours = await Tour.find(queryObj);
 
     res.status(200).json({
       status: 'success',
