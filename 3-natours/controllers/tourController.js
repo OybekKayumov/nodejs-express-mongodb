@@ -6,6 +6,7 @@ const Tour = require('./../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
+    //TODO: build query
     // copy of query
     const queryObj = { ...req.query };  // new object
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
@@ -33,8 +34,12 @@ exports.getAllTours = async (req, res) => {
     // const tours = await Tour.find(req.query);
     // req.query:  { difficulty: 'easy', page: '2', limit: '1', sort: '1', fields: '2' } { difficulty: 'easy' }
 
-    const tours = await Tour.find(queryObj);
+    const query = Tour.find(queryObj);  // returns query, that we can use later find, sort, limit and fields
 
+    //TODO: execute query
+    const tours = await query;
+
+    //TODO: send response
     res.status(200).json({
       status: 'success',
       results: tours.length,
