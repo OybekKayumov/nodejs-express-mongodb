@@ -12,12 +12,12 @@ const DB = process.env.DATABASE.replace(
 
 mongoose
   // local mongodb
-  // .connect(process.env.DATABASE_LOCAL, {
+  .connect(process.env.DATABASE_LOCAL, {
 
-  .connect(DB, {
-    useNewUrlParser: true,
-    // useCreateIndex: true,
-    // useFindAndModify: false,
+  // .connect(DB, {
+  //   useNewUrlParser: true,
+  //   // useCreateIndex: true,
+  //   // useFindAndModify: false,
   })
   .then((con) => {
     console.log(con.connections);
