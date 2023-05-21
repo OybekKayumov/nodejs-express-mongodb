@@ -8,13 +8,14 @@ exports.getAllTours = async (req, res) => {
   try {
     //TODO: build query
     // copy of query
+    // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const queryObj = { ...req.query };  // new object
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
 
     // delete from query object fields
     excludedFields.forEach(el => delete queryObj[el]);
     
-    console.log('req.query: ', req.query, queryObj);
+    // console.log('req.query: ', req.query, queryObj);
 
     // const tours = await Tour.find();  // return all items
     
@@ -34,7 +35,17 @@ exports.getAllTours = async (req, res) => {
     // const tours = await Tour.find(req.query);
     // req.query:  { difficulty: 'easy', page: '2', limit: '1', sort: '1', fields: '2' } { difficulty: 'easy' }
 
-    const query = Tour.find(queryObj);  // returns query, that we can use later find, sort, limit and fields
+    //! 96. Making the API Better: Advanced Filtering
+    // {difficulty: 'easy', duration: {$gte: 5} }  grater or equal than 5
+    // duration[gte]=5,  gte, gt, lte, lt --> to get $gte
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  // g - replace all
+    console.log(': ', JSON.parse(queryStr)); 
+    // { duration: { '$gte': '5' } }
+
+    // const query = Tour.find(queryObj);  // returns query, that we can use later find, sort, limit and fields
+    const query = Tour.find(JSON.parse(queryStr));
+    // http://127.0.0.1:3000/api/v1/tours?duration[gte]=5&difficulty=easy&price[lt]=1500
 
     //TODO: execute query
     const tours = await query;
