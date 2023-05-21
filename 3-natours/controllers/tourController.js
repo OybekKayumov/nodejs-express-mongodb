@@ -47,7 +47,7 @@ exports.getAllTours = async (req, res) => {
     let query = Tour.find(JSON.parse(queryStr));
     // http://127.0.0.1:3000/api/v1/tours?duration[gte]=5&difficulty=easy&price[lt]=1500
 
-    // 97. Making the API Better: Sorting
+    // 97. Sorting
     if (req.query.sort) {
       const sortBy = req.query.sort.split(',').join(' ');
       // query = query.sort(req.query.sort);
@@ -55,6 +55,15 @@ exports.getAllTours = async (req, res) => {
       // sort('price ratingsAverage')
     }  else {
       query = query.sort('-createdAt');
+    }
+
+    // 98. Limiting Fields
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      // query = query.select('name duration price');  // projecting
+      query = query.select(fields);      
+    }  else {
+      query = query.select('-__v'); // '-' not including, excluding field __v
     }
 
     //TODO: execute query
