@@ -97,8 +97,18 @@ tourSchema.pre('save', function (next) {
 // });
 
 // 106. Query Middleware
-tourSchema.pre('find', function (next) {
+// tourSchema.pre('find', function (next) {
+tourSchema.pre(/^find/, function (next) {
+  // all strings start with 'find'
   this.find({ secretTour: { $ne: true } }); // this - query object, ne- not equal
+
+  this.start = Date.now();
+  next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+  console.log(` Query took ${Date.now() - this.start} msec.`);
+  console.log('docs: ', docs);
 
   next();
 });
