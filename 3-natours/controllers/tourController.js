@@ -141,9 +141,9 @@ exports.getTourStats = async (req, res) => {
       {
         $sort: { avgPrice: 1}
       },
-      {
-        $match: { _id: { $ne: 'EASY' }}  // not equal - ne
-      }
+      // {
+      //   $match: { _id: { $ne: 'EASY' }}  // not equal - ne
+      // }
     ]);
 
     res.status(200).json({
@@ -152,6 +152,27 @@ exports.getTourStats = async (req, res) => {
         stats
       }
     });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail', 
+      message: err
+    })
+  }
+}
+
+// 103. Aggregation Pipeline: Unwinding and Projecting
+exports.getMonthlyPlan = async (req, res) => {
+  try {
+    const year = req.params.year * 1;  // to Number
+    
+    const plan = await Tour.aggregate([]);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        plan
+      }
+    })
   } catch (err) {
     res.status(404).json({
       status: 'fail', 
