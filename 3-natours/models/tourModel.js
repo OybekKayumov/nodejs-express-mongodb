@@ -58,6 +58,10 @@ const tourSchema = new mongoose.Schema(
       select: false, // not show to users
     },
     startDates: [Date],
+    secretTour: {
+      type: Boolean,
+      default: false,
+    },
   }, // virtual fields are not a part of DB
   {
     toJSON: { virtuals: true },
@@ -84,13 +88,20 @@ tourSchema.pre('save', function (next) {
 //   console.log('Will save document...');
 
 //   next();
-// })
+// });
 
 // tourSchema.post('save', function (doc, next) {
 //   console.log('doc: ', doc);
 
 //   next();
-// })
+// });
+
+// 106. Query Middleware
+tourSchema.pre('find', function (next) {
+  this.find({ secretTour: { $ne: true } }); // this - query object, ne- not equal
+
+  next();
+});
 
 const Tour = mongoose.model('Tour', tourSchema);
 
