@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const tourSchema = new mongoose.Schema(
   {
@@ -7,6 +8,7 @@ const tourSchema = new mongoose.Schema(
       requires: [true, 'A tour must have a name...'],
       unique: true,
     },
+    slug: String,
     duration: {
       type: Number,
       required: [true, 'A tour must have a duration'],
@@ -70,6 +72,54 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7; // this - pointing to the current document
 });
 
+// Document middleware, runs before .save and .create, and NOT in .insertMany
+tourSchema.pre('save', function (next) {
+  // console.log('this: ', this);
+  this.slug = slugify(this.name, { lower: true });
+
+  next();
+});
+
+// tourSchema.pre('save', function (next) {
+//   console.log('Will save document...');
+
+//   next();
+// })
+
+// tourSchema.post('save', function (doc, next) {
+//   console.log('doc: ', doc);
+
+//   next();
+// })
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
+
+// 105. Document Middleware in mongoose:
+// 4: document, query, aggregate, model
+
+//TODO: before saving
+// this:  {
+//   name: 'Test tour',
+//   duration: 1,
+//   maxGroupSize: 1,
+//   difficulty: 'difficult',
+//   ratingsAverage: 4.5,
+//   ratingsQuantity: 0,
+//   rating: 4.5,
+//   price: 997,
+//   summary: 'test tour...',
+//   imageCover: 'tour-3-cover.jpg',
+//   images: [],
+//   createdAt: 2023-05-22T06:42:20.497Z,
+//   startDates: [],
+//   _id: new ObjectId("646b0f99d3dcb8a4316102d9"),
+//   durationWeeks: 0.14285714285714285,
+//   id: '646b0f99d3dcb8a4316102d9'
+// }
+
+// slug is a string that we can put in the URL, usually based on some string like the name
+// npm i slugify
+
+// "slug": "test-tour-3",
