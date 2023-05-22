@@ -176,6 +176,27 @@ exports.getMonthlyPlan = async (req, res) => {
             $lte: new Date(`${year}-12-31`),
           }
         }
+      },
+      {
+        $group: {
+          _id: { $month: '$startDates' },
+          numTourStarts: { $sum: 1 },
+          tours: { $push: '$name' }
+        }
+      },
+      {
+        $addFields: { month: '$_id' }
+      },
+      {
+        $project: {
+          _id: 0    // do not show id
+        }
+      },
+      {
+        $sort: { numTourStarts: -1 }   // start from highest number
+      },
+      {
+        $limit: 6
       }
     ]);
 
