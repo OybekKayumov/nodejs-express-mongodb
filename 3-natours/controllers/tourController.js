@@ -196,7 +196,7 @@ exports.getMonthlyPlan = async (req, res) => {
         $sort: { numTourStarts: -1 }   // start from highest number
       },
       {
-        $limit: 6
+        $limit: 12
       }
     ]);
 

@@ -57,6 +57,13 @@ const tourSchema = new mongoose.Schema({
   startDates: [Date],
 });
 
+// 104. Virtual Properties
+// getter - will be created each time that we get some data out of the DB
+// so this .get() function here is called a GETTER
+tourSchema.virtual('durationWeeks').get(function () {
+  return this.duration / 7; // this - pointing to the current document
+});
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
