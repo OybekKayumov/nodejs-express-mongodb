@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 
@@ -108,10 +109,18 @@ tourSchema.pre(/^find/, function (next) {
 
 tourSchema.post(/^find/, function (docs, next) {
   console.log(` Query took ${Date.now() - this.start} msec.`);
-  console.log('docs: ', docs);
+  // console.log('docs: ', docs);
 
   next();
 });
+
+// 107. Aggregation Middleware
+tourSchema.pre('aggregate', function (next) {
+  // add at the beginning of array
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+
+  next();
+})
 
 const Tour = mongoose.model('Tour', tourSchema);
 
