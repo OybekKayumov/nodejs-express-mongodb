@@ -12,16 +12,44 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 }
 
+class APIFeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+
+  filter() {
+    const queryObj = { ...this.queryString };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach(el => delete queryObj[el]);
+
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  
+    
+    // let query = Tour.find(JSON.parse(queryStr));
+    this.query.find(JSON.parse(queryStr));
+  }
+
+  sort() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');      
+      this.query = this.query.sort(sortBy);      
+    }  else {
+      this.query = this.query.sort('-createdAt');
+    }
+  } 
+}
+
 exports.getAllTours = async (req, res) => {
   try {
     //TODO: build query
     // copy of query
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
-    const queryObj = { ...req.query };  // new object
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    //const queryObj = { ...req.query };  // new object
+    //const excludedFields = ['page', 'sort', 'limit', 'fields'];
 
     // delete from query object fields
-    excludedFields.forEach(el => delete queryObj[el]);
+    //excludedFields.forEach(el => delete queryObj[el]);
     
     // console.log('req.query: ', req.query, queryObj);
 
@@ -46,24 +74,24 @@ exports.getAllTours = async (req, res) => {
     //! 96. Making the API Better: Advanced Filtering
     // {difficulty: 'easy', duration: {$gte: 5} }  grater or equal than 5
     // duration[gte]=5,  gte, gt, lte, lt --> to get $gte
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  // g - replace all
-    console.log(': ', JSON.parse(queryStr)); 
+    // let queryStr = JSON.stringify(queryObj);
+    // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`)  // g - replace all
+    // console.log(': ', JSON.parse(queryStr)); 
     // { duration: { '$gte': '5' } }
 
     // const query = Tour.find(queryObj);  // returns query, that we can use later find, sort, limit and fields
-    let query = Tour.find(JSON.parse(queryStr));
+    // let query = Tour.find(JSON.parse(queryStr));
     // http://127.0.0.1:3000/api/v1/tours?duration[gte]=5&difficulty=easy&price[lt]=1500
 
     // 97. Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').join(' ');
-      // query = query.sort(req.query.sort);
-      query = query.sort(sortBy);
-      // sort('price ratingsAverage')
-    }  else {
-      query = query.sort('-createdAt');
-    }
+    // if (req.query.sort) {
+    //   const sortBy = req.query.sort.split(',').join(' ');
+    //   // query = query.sort(req.query.sort);
+    //   query = query.sort(sortBy);
+    //   // sort('price ratingsAverage')
+    // }  else {
+    //   query = query.sort('-createdAt');
+    // }
 
     // 98. Limiting Fields
     if (req.query.fields) {
@@ -87,7 +115,9 @@ exports.getAllTours = async (req, res) => {
     }
 
     //TODO: execute query
-    const tours = await query;
+    const features = new APIFeatures(Tour.find(), req.query).filter().sort();
+    const tours = await features.query;
+    // const tours = await query;
     // query.sort().select().skip().limit()
 
     //TODO: send response
