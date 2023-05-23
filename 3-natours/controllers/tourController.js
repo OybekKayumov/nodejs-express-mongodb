@@ -12,8 +12,6 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 }
 
-
-
 exports.getAllTours = async (req, res) => {
   try {    
     //TODO: execute query
@@ -38,7 +36,6 @@ exports.getAllTours = async (req, res) => {
       message: err,
     })
   }
-
 };
 
 exports.getTour = async (req, res) => {

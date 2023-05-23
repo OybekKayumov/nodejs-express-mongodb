@@ -34,11 +34,23 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
+//! put after real routes, order is important
 app.all('*', (req, res, next) => {
   res.status(404).json({
     status: 'fail',
     message: `Can't find ${req.originalUrl} on this server...`,
   })
+});
+
+// 114. Implementing a Global Error Handling Middleware
+app.use((err, req, res, next) => {
+  err.statusCode = err.status || 500;
+  err.status = err.status || 'error';
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message
+  });
 });
 
 // 4. Start Server
