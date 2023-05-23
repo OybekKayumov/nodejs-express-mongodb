@@ -1,6 +1,7 @@
 /* eslint-disable import/no-useless-path-segments */
 /* eslint-disable prefer-object-spread */
 /* eslint-disable prettier/prettier */
+const AppError = require('../utils/appError');
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
@@ -35,7 +36,13 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id)  // find one item
                  //  Tour.findOne({ _id: req.params.id}) 
-  res.status(200).json({
+  
+  if (!tour) {
+    return next(new AppError('No tour found with that ID', 404));
+  } else {
+    
+  }
+                 res.status(200).json({
     status: 'success',
     data: {
       tour,
