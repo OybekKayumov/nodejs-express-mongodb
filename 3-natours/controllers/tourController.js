@@ -56,14 +56,15 @@ exports.getTour = async (req, res) => {
  }
 };
 
-exports.createTour = async (req, res) => {
-  try {
-    // create 1
-    // const newTour = new Tour({});
-    // newTour.save().than().catch();
+const catchAsync = fn => {
+  return (req, res, next) => {
+    // fn(req, res, next).catch(err => next(err));
+    fn(req, res, next).catch(next);
+  };
+};
 
-    // create 2
-    const newTour = await Tour.create(req.body);
+exports.createTour = catchAsync(async (req, res, next) => {
+  const newTour = await Tour.create(req.body);
 
     res.status(201)
       .json({
@@ -72,13 +73,29 @@ exports.createTour = async (req, res) => {
           tour: newTour,
         },
       });
-  } catch (err) {    
-    res.status(400).json({
-      status: 'fail', 
-      message: err
-    })
-  }
-};
+
+  // try {
+    // create 1
+    // const newTour = new Tour({});
+    // newTour.save().than().catch();
+
+    // create 2
+  //   const newTour = await Tour.create(req.body);
+
+  //   res.status(201)
+  //     .json({
+  //       status: 'success',
+  //       data: {
+  //         tour: newTour,
+  //       },
+  //     });
+  // } catch (err) {    
+  //   res.status(400).json({
+  //     status: 'fail', 
+  //     message: err
+  //   })
+  // }
+}) ;
 
 exports.updateTour = async (req, res) => {  
   try { 
