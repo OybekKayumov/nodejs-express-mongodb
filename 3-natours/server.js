@@ -47,3 +47,8 @@ process.on('unhandledRejection', err => {
     process.exit(1);
   })
 });
+
+// 123. Catching Uncaught Exceptions
+process.on('uncaughtException', err => {
+  
+})
