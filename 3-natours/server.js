@@ -1,8 +1,15 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 const mongoose = require('mongoose');
-
 const dotenv = require('dotenv');
+
+// 123. Catching Uncaught Exceptions
+process.on('uncaughtException', err => {
+  console.log('Uncaught Exceptions!!! Shutting down...');
+  console.log(err.name, err.message);
+
+  process.exit(1);  
+});
 
 dotenv.config({ path: './config.env' });
 
@@ -38,17 +45,10 @@ const server = app.listen(port, () => {
  
 // 122. Errors Outside Express: Unhandled Rejections, incorrect pwd
 process.on('unhandledRejection', err => {
+  console.log('Unhandled Rejections!!! Shutting down...');
   console.log(err.name, err.message);
 
-  console.log('Unhandled Rejections!!! Shutting down...');
-
   server.close(() => {
-
     process.exit(1);
   })
 });
-
-// 123. Catching Uncaught Exceptions
-process.on('uncaughtException', err => {
-  
-})
