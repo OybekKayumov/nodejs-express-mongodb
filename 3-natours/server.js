@@ -21,7 +21,7 @@ mongoose
   //   // useFindAndModify: false,
   })
   .then((con) => {
-    console.log(con.connections);
+    // console.log(con.connections);
     console.log('DB connections successfully !!');
   })
   .catch((err) => {
@@ -36,3 +36,10 @@ app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
  
+// 122. Errors Outside Express: Unhandled Rejections, incorrect pwd
+process.on('unhandledRejection', err => {
+  console.log(err.name, err.message);
+
+  console.log('Unhandled Rejections!!! Shutting down...');
+  process.exit(1)
+});
