@@ -52,6 +52,11 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// check entered pwd with pwd in DB, returns true or false
+userSchema.methods.correctPassword = async function (candidatePwd, userPwd) {
+  return await bcrypt.compare(candidatePwd, userPwd);
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

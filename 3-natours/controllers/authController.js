@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const bcrypt = require('bcryptjs');
 
 exports.signup = catchAsync(async (req, res, next) => {
   // const newUser = await User.create(req.body);
@@ -42,6 +43,13 @@ exports.login = catchAsync(async (req, res, next) => {
   // check if email and pwd exist && correct
   const user = await User.findOne({ email }).select('+password');
   console.log('user: ', user);
+
+  // check pwd function in userModel
+  const correct = await user.correctPassword(password, user.password);
+
+  if (!user || !correct) {
+    return next(new AppError('Incorrect email or password', 401));
+  }
 
   // if email and pwd OK, send token to client
   const token = '';
