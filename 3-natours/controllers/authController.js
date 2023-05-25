@@ -1,9 +1,15 @@
+/* eslint-disable arrow-body-style */
 /* eslint-disable import/no-useless-path-segments */
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
-const bcrypt = require('bcryptjs');
+
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
 
 exports.signup = catchAsync(async (req, res, next) => {
   // const newUser = await User.create(req.body);
@@ -16,9 +22,10 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   // create token
   // const token = jwt.sign({ id: newUser._id }, 'secret', expire_time);
-  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+  const token = signToken(newUser._id);
+  //   jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+  //   expiresIn: process.env.JWT_EXPIRES_IN,
+  // });
 
   res.status(201).json({
     status: 'success',
@@ -45,14 +52,14 @@ exports.login = catchAsync(async (req, res, next) => {
   console.log('user: ', user);
 
   // check pwd function in userModel
-  const correct = await user.correctPassword(password, user.password);
+  // const correct = await user.correctPassword(password, user.password);
 
-  if (!user || !correct) {
+  if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }
 
   // if email and pwd OK, send token to client
-  const token = '';
+  const token = signToken(user._id);
   res.status(200).json({
     status: 'success',
     token,
