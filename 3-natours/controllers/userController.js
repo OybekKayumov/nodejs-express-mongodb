@@ -1,39 +1,48 @@
-const fs = require('fs');
+/* eslint-disable import/no-useless-path-segments */
+const User = require('./../models/userModel');
+const catchAsync = require('./../utils/catchAsync');
 
-// read data and convert to array of JS object
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`))
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  // res.status(500).json({
+  //   status: 'error...',
+  //   message: 'This route is not defined yet'
+  // });
+  const users = await User.find();
 
-exports.getAllUsers = (req, res) => {
-  res.status(500).json({
-    status: 'error...',
-    message: 'This route is not defined yet'
+  //TODO: send response
+  res.status(200).json({
+    status: 'success',
+    results: users.length,
+    data: {
+      users,
+    },
   });
-};
+});
 
 exports.getUser = (req, res) => {
   res.status(500).json({
     status: 'error...',
-    message: 'This route is not defined yet'
+    message: 'This route is not defined yet',
   });
 };
 
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error...',
-    message: 'This route is not defined yet'
+    message: 'This route is not defined yet',
   });
 };
 
 exports.updateUser = (req, res) => {
   res.status(500).json({
     status: 'error...',
-    message: 'This route is not defined yet'
+    message: 'This route is not defined yet',
   });
 };
 
 exports.deleteUser = (req, res) => {
   res.status(500).json({
     status: 'error...',
-    message: 'This route is not defined yet'
+    message: 'This route is not defined yet',
   });
 };

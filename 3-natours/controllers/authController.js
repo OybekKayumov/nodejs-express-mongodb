@@ -30,7 +30,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 // Logging in Users
-exports.login = (req, res, next) => {
+exports.login = catchAsync(async (req, res, next) => {
   // read email and pwd from the body
   const { email, password } = req.body;
 
@@ -40,7 +40,8 @@ exports.login = (req, res, next) => {
   }
 
   // check if email and pwd exist && correct
-  const user = User.findOne({ email: email });
+  const user = await User.findOne({ email }).select('+password');
+  console.log('user: ', user);
 
   // if email and pwd OK, send token to client
   const token = '';
@@ -48,7 +49,7 @@ exports.login = (req, res, next) => {
     status: 'success',
     token,
   });
-};
+});
 
 // {
 //   "status": "success",
