@@ -115,6 +115,19 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    // roles ['admin', 'lead-guide']. role='user'
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403)
+      );
+    }
+
+    next();
+  };
+};
+
 // {
 //   "status": "success",
 //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmRkOTIxOTMwZjlmOWUyOGNjZDdlMyIsImlhdCI6MTY4NDkyMDYwOSwiZXhwIjoxNjkyNjk2NjA5fQ.HPws6KnQKuRmkAIAjS2XuAlIk54vxYYseVr0hRjmbnI",
