@@ -135,3 +135,5 @@ exports.protect = catchAsync(async (req, res, next) => {
 //   "status": "success",
 //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmRkOTIxOTMwZjlmOWUyOGNjZDdlMyIsImlhdCI6MTY4NDk3NTM2MywiZXhwIjoxNjkyNzUxMzYzfQ.kZvhqUIUYPPkv_1TuhWHanLwdvsgWUiICixWYzy6WGo"
 // }
+
+// with authorization we check if a certain user is allowed to access a certain resource,even if he is logged in. So not all logged in users will be able to perform the same actions in our API

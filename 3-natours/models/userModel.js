@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   photo: String,
+  role: {
+    type: String,
+    enum: ['user', 'guide', 'lead-guide', 'admin'],
+    default: 'user',
+  },
   password: {
     type: String,
     required: [true, 'Please provide a password'],
@@ -76,3 +81,19 @@ userSchema.methods.changedPwdAfter = async function (JWTTimestamp) {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+
+// 134. Authorization: User Roles and Permissions
+// {
+//   "status": "success",
+//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmYxM2VmZjU2ZTMyOTM5YzJkMmNjYSIsImlhdCI6MTY4NTAwMTE5OSwiZXhwIjoxNjkyNzc3MTk5fQ.zqTle4ft3JzKMG1Gm_Uq187gyMLUZcnaddRVQQrGrLk",
+//   "data": {
+//       "user": {
+//           "name": "john",
+//           "email": "john@mail.com",
+//           "role": "user",
+//           "password": "$2a$12$ZKrvXJPi31/9HfvuNuA6GOJJ17d4eCwIImQuwCLIN2L6oBenwJMP.",
+//           "_id": "646f13eff56e32939c2d2cca",
+//           "__v": 0
+//       }
+//   }
+// }
