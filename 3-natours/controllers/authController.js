@@ -66,6 +66,19 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
+// Protecting Tour Routes
+exports.protect = catchAsync(async (req, res, next) => {
+  // get token and check of it's true
+
+  // verification, validate token
+
+  // check if user still exists
+
+  // check if user changed pwd after jwt-token was issued
+
+  next();
+});
+
 // {
 //   "status": "success",
 //   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmRkOTIxOTMwZjlmOWUyOGNjZDdlMyIsImlhdCI6MTY4NDkyMDYwOSwiZXhwIjoxNjkyNjk2NjA5fQ.HPws6KnQKuRmkAIAjS2XuAlIk54vxYYseVr0hRjmbnI",
@@ -79,4 +92,10 @@ exports.login = catchAsync(async (req, res, next) => {
 //           "__v": 0
 //       }
 //   }
+// }
+
+//todo: user login
+// {
+//   "status": "success",
+//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmRkOTIxOTMwZjlmOWUyOGNjZDdlMyIsImlhdCI6MTY4NDk3NTM2MywiZXhwIjoxNjkyNzUxMzYzfQ.kZvhqUIUYPPkv_1TuhWHanLwdvsgWUiICixWYzy6WGo"
 // }

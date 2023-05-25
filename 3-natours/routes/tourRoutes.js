@@ -1,7 +1,7 @@
 /* eslint-disable import/no-useless-path-segments */
 const express = require('express');
-
 const tourController = require('./../controllers/tourController');
+const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
@@ -17,7 +17,8 @@ router.route('/monthly-plan/:year').get(tourController.getMonthlyPlan);
 router
   // .route('/api/v1/tours')
   .route('/')
-  .get(tourController.getAllTours)
+  // if user is not authenticated, will be error. protect recourses from not logged in users
+  .get(authController.protect, tourController.getAllTours)
   .post(tourController.createTour);
 
 // tourRouter
