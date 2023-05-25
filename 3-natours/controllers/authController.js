@@ -36,10 +36,18 @@ exports.login = (req, res, next) => {
 
   // check if email and pwd exist
   if (!email || !password) {
-    next(new AppError('Please provide email and password!', 400));
+    return next(new AppError('Please provide email and password!', 400));
   }
+
   // check if email and pwd exist && correct
+  const user = User.findOne({ email: email });
+
   // if email and pwd OK, send token to client
+  const token = '';
+  res.status(200).json({
+    status: 'success',
+    token,
+  });
 };
 
 // {
