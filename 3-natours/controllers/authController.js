@@ -51,7 +51,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // check if email and pwd exist && correct
   const user = await User.findOne({ email }).select('+password');
-  console.log('user: ', user);
+  // console.log('user: ', user);
 
   // check pwd function in userModel
   // const correct = await user.correctPassword(password, user.password);
@@ -74,7 +74,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   let token;
   if (
     req.headers.authorization &&
-    req.headers.authorization.startWith('Bearer')
+    req.headers.authorization.startsWith('Bearer')
   ) {
     // take 2nd element of array after space
     token = req.headers.authorization.split(' ')[1];
@@ -94,8 +94,8 @@ exports.protect = catchAsync(async (req, res, next) => {
   // console.log('decoded: ', decoded);
 
   // check if user still exists
-  const freshUser = await User.findById(decoded.id);
-  if (!freshUser) {
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
     return next(
       new AppError(
         'The user belonging to this token does no longer exist.',
@@ -104,14 +104,14 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
   // check if user changed pwd after jwt-token was issued
-  if (freshUser.changedPwdAfter(decoded.iat)) {
+  if (currentUser.changedPwdAfter(decoded.iat)) {
     return next(
       new AppError('User recently changed password. Please log in again.', 401)
     );
   }
 
   // Grant access to protected route
-  req.user = freshUser;
+  req.user = currentUser;
   next();
 });
 
