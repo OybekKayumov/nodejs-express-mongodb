@@ -69,6 +69,23 @@ exports.login = catchAsync(async (req, res, next) => {
 // Protecting Tour Routes
 exports.protect = catchAsync(async (req, res, next) => {
   // get token and check of it's true
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startWith('Bearer')
+  ) {
+    // take 2nd element of array after space
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  console.log('token Bearer : ', token);
+
+  // if there is no token
+  if (!token) {
+    return next(
+      new AppError('You are not logged in! Please log in to get access.', 401)
+    );
+  }
 
   // verification, validate token
 
