@@ -1,5 +1,7 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable import/no-useless-path-segments */
+// const util = require('util');
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
@@ -78,7 +80,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
-  console.log('token Bearer : ', token);
+  // console.log('token Bearer : ', token);
 
   // if there is no token
   if (!token) {
@@ -88,6 +90,8 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   // verification, validate token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  console.log('decoded: ', decoded);
 
   // check if user still exists
 
