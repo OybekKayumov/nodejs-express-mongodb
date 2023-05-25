@@ -18,6 +18,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    role: req.body.role,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   });
@@ -127,6 +128,20 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+// 135. Password Reset Functionality: Reset Token
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  // get user based on POSSTed email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError('There is no user with email address.', 404));
+  }
+  // generate the random reset token
+  
+  // send it to user's email
+});
+
+exports.resetPassword = (req, res, next) => {};
 
 // {
 //   "status": "success",
