@@ -15,6 +15,19 @@ const signToken = (id) => {
   });
 };
 
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  res.status(statusCode).json({
+    status: 'success',
+    // send token to client
+    token,
+    data: {
+      user,
+    },
+  });
+}
+
 exports.signup = catchAsync(async (req, res, next) => {
   // const newUser = await User.create(req.body);
   const newUser = await User.create({
@@ -25,21 +38,22 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
+  createSendToken(newUser, 201, res);
   // create token
   // const token = jwt.sign({ id: newUser._id }, 'secret', expire_time);
-  const token = signToken(newUser._id);
+  // const token = signToken(newUser._id);
   //   jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
   //   expiresIn: process.env.JWT_EXPIRES_IN,
   // });
 
-  res.status(201).json({
-    status: 'success',
-    // send token to client
-    token,
-    data: {
-      user: newUser,
-    },
-  });
+  // res.status(201).json({
+  //   status: 'success',
+  //   // send token to client
+  //   token,
+  //   data: {
+  //     user: newUser,
+  //   },
+  // });
 });
 
 // Logging in Users
@@ -64,11 +78,12 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // if email and pwd OK, send token to client
-  const token = signToken(user._id);
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  createSendToken(user, 200, res);
+  // const token = signToken(user._id);
+  // res.status(200).json({
+  //   status: 'success',
+  //   token,
+  // });
 });
 
 // Protecting Tour Routes
@@ -198,12 +213,13 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // update changePwdAt property for the user
 
   // log the user in, send JWT
-  const token = signToken(user._id);
+  createSendToken(user, 200, res);
+  // const token = signToken(user._id);
 
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  // res.status(200).json({
+  //   status: 'success',
+  //   token,
+  // });
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -218,7 +234,8 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
+  // user.findByIdAndUpdate will not work as intended!
 
   // log user in, send JWT
-  
+  createSendToken(user, 200, res);
 });
