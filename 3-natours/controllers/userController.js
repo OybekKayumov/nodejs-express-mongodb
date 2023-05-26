@@ -6,12 +6,12 @@ const AppError = require('./../utils/appError');
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
 
-  Object.keys(obj).forEach(el => {
+  Object.keys(obj).forEach((el) => {
     if (allowedFields.includes(el)) newObj[el] = obj[el];
   });
 
   return newObj;
-}
+};
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   // res.status(500).json({
@@ -35,7 +35,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
-        'This route is not for password updates. Please use /updateMyPassowrd.',
+        'This route is not for password updates. Please use /updateMyPassword.',
         400
       )
     );
@@ -55,6 +55,16 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     data: {
       user: updatedUser,
     },
+  });
+});
+
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.res.id, { active: false });
+
+  res.status(204).json({
+    // deleted - 204
+    status: 'success',
+    data: null,
   });
 });
 
