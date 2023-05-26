@@ -4,10 +4,10 @@
 const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
-const User = require('./../models/userModel');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
-const sendEmail = require('./../utils/email');
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const sendEmail = require('../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -45,6 +45,7 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  // const newUser = await User.create(req.body);
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -54,6 +55,21 @@ exports.signup = catchAsync(async (req, res, next) => {
   });
 
   createSendToken(newUser, 201, res);
+  // create token
+  // const token = jwt.sign({ id: newUser._id }, 'secret', expire_time);
+  // const token = signToken(newUser._id);
+  //   jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+  //   expiresIn: process.env.JWT_EXPIRES_IN,
+  // });
+
+  // res.status(201).json({
+  //   status: 'success',
+  //   // send token to client
+  //   token,
+  //   data: {
+  //     user: newUser,
+  //   },
+  // });
 });
 
 // Logging in Users
@@ -68,6 +84,10 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // check if email and pwd exist && correct
   const user = await User.findOne({ email }).select('+password');
+  // console.log('user: ', user);
+
+  // check pwd function in userModel
+  // const correct = await user.correctPassword(password, user.password);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
@@ -75,6 +95,11 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // if email and pwd OK, send token to client
   createSendToken(user, 200, res);
+  // const token = signToken(user._id);
+  // res.status(200).json({
+  //   status: 'success',
+  //   token,
+  // });
 });
 
 // Protecting Tour Routes
@@ -89,6 +114,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
+  // console.log('token Bearer : ', token);
+
   // if there is no token
   if (!token) {
     return next(
@@ -98,6 +125,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // verification, validate token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  // console.log('decoded: ', decoded);
 
   // check if user still exists
   const currentUser = await User.findById(decoded.id);
@@ -198,10 +226,16 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  // update changedPasswordAt property for the user
+  // update changePwdAt property for the user
 
   // log the user in, send JWT
   createSendToken(user, 200, res);
+  // const token = signToken(user._id);
+
+  // res.status(200).json({
+  //   status: 'success',
+  //   token,
+  // });
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {

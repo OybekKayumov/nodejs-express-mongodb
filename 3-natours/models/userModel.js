@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Please provide your email!'],
+    required: [true, 'Please provide your email'],
     unique: true,
     lowercase: true,
     // check for correct email address
@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
     },
   },
   passwordChangedAt: Date,
-  passwordResetToken: Date,
+  passwordResetToken: String,
   passwordResetExpires: Date,
   active: {
     type: Boolean,
@@ -68,7 +68,7 @@ userSchema.pre('save', async function (next) {
 
 // runs before saving
 userSchema.pre('save', function (next) {
-  if (!this.isModified('password')) return next();
+  if (!this.isModified('password') || this.isNew) return next();
 
   // ensure that token is always created after pwd has been changed -1second
   this.passwordChangedAt = Date.now() - 1000;
@@ -78,17 +78,21 @@ userSchema.pre('save', function (next) {
 // do not select not active users
 userSchema.pre(/^find/, function (next) {
   // this points to the current query
-  this.find({ active: { $ne: false } }); // not equal to false
+  this.find({ active: { $ne: false } });
+  // not equal to false
 
   next();
 });
 
 // check entered pwd with pwd in DB, returns true or false
-userSchema.methods.correctPassword = async function (candidatePwd, userPwd) {
-  return await bcrypt.compare(candidatePwd, userPwd);
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPwdAfter = async function (JWTTimestamp) {
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
@@ -103,7 +107,7 @@ userSchema.methods.changedPwdAfter = async function (JWTTimestamp) {
   return false;
 };
 
-userSchema.methods.createPwdResetToken = function () {
+userSchema.methods.createPasswordResetToken = function () {
   // to send to user
   const resetToken = crypto.randomBytes(32).toString('hex');
 
@@ -112,9 +116,10 @@ userSchema.methods.createPwdResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  console.log('resetToken: ', { resetToken }, this.passwordResetToken);
+  console.log({ resetToken }, this.passwordResetToken);
 
-  this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 min
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  // 10 min
 
   return resetToken;
 };

@@ -5,18 +5,19 @@ const dotenv = require('dotenv');
 
 // 123. Catching Uncaught Exceptions
 process.on('uncaughtException', err => {
-  console.log('Uncaught Exceptions!!! Shutting down...');
+  console.log('UNCAUGHT EXCEPTION! 💥 Shutting down...');
   console.log(err.name, err.message);
 
   process.exit(1);
 });
 
 dotenv.config({ path: './config.env' });
+const app = require('./app');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
-)
+);
 
 mongoose
   // local mongodb
@@ -27,15 +28,7 @@ mongoose
   //   // useCreateIndex: true,
   //   // useFindAndModify: false,
   })
-  .then((con) => {
-    // console.log(con.connections);
-    console.log('DB connections successfully !!');
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-const app = require('./app');
+  .then(() => console.log('DB connection successful!'));
 
 // Start Server
 const port = process.env.PORT || 3000;
@@ -45,10 +38,10 @@ const server = app.listen(port, () => {
  
 // 122. Errors Outside Express: Unhandled Rejections, incorrect pwd
 process.on('unhandledRejection', err => {
-  console.log('Unhandled Rejections!!! Shutting down...');
+  console.log('UNHANDLED REJECTION! 💥 Shutting down...');
   console.log(err.name, err.message);
 
   server.close(() => {
     process.exit(1);
-  })
+  });
 });

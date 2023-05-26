@@ -18,7 +18,7 @@ const app = express();
 
 // 1. Global Middlewares
 // Setting Security HTTP Headers
-app.use(helmet())
+app.use(helmet());
 
 // development logging
 if (process.env.NODE_ENV === 'development') {
@@ -59,7 +59,7 @@ app.use(
 );
 
 // Serving Static Files
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/public`));
 
 // test middleware
 app.use((req, res, next) => {
@@ -67,7 +67,7 @@ app.use((req, res, next) => {
 
   // console.log('req.headers: ', req.headers);
   next();
-})
+});
 
 // 3 Routes, mounting the router
 app.use('/api/v1/tours', tourRouter);
@@ -76,7 +76,7 @@ app.use('/api/v1/users', userRouter);
 //! put after real routes, order is important
 app.all('*', (req, res, next) => {  
 
-  next(new AppError(`Can't find ${req.originalUrl} on this server...`, 404));
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 // 114. Implementing a Global Error Handling Middleware
