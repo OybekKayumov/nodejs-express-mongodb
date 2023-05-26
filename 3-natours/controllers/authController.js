@@ -1,11 +1,13 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable import/no-useless-path-segments */
 // const util = require('util');
+const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const sendEmail = require('./../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -141,29 +143,65 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // send it to user's email
+  const resetURL = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/users/resetPassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit a Patch request with your new password and passwordConfirm to ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset token (valid for 10 min)',
+      message,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email!',
+    });
+  } catch (error) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError('There was an error sending the email. Try again later!'),
+      500
+    );
+  }
 });
 
-exports.resetPassword = (req, res, next) => {};
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  // get user based on the token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
 
-// {
-//   "status": "success",
-//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmRkOTIxOTMwZjlmOWUyOGNjZDdlMyIsImlhdCI6MTY4NDkyMDYwOSwiZXhwIjoxNjkyNjk2NjA5fQ.HPws6KnQKuRmkAIAjS2XuAlIk54vxYYseVr0hRjmbnI",
-//   "data": {
-//       "user": {
-//           "name": "john1",
-//           "email": "john1@mail.com",
-//           "password": "$2a$12$7wiMYh0rQoaz/LSP6TSAtuzthN0XLH3O2/v/f0z8ihRwDzimSbgYq",
-//           "_id": "646dd921930f9f9e28ccd7e3",
-//            "id": "646dd921930f9f9e28ccd7e3" //! from jwt.io
-//           "__v": 0
-//       }
-//   }
-// }
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  });
 
-//todo: user login
-// {
-//   "status": "success",
-//   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NmRkOTIxOTMwZjlmOWUyOGNjZDdlMyIsImlhdCI6MTY4NDk3NTM2MywiZXhwIjoxNjkyNzUxMzYzfQ.kZvhqUIUYPPkv_1TuhWHanLwdvsgWUiICixWYzy6WGo"
-// }
+  // if token has not expired, and there is user, set the new pwd
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
+  }
 
-// with authorization we check if a certain user is allowed to access a certain resource,even if he is logged in. So not all logged in users will be able to perform the same actions in our API
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordResetToken = undefined;
+  user.passwordResetExpires = undefined;
+  await user.save();
+
+  // update changePwdAt property for the user
+
+  // log the user in, send JWT
+  const token = signToken(user._id);
+
+  res.status(200).json({
+    status: 'success',
+    token,
+  });
+});
