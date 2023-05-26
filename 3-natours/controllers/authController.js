@@ -196,7 +196,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // update changePwdAt property for the user
-  
 
   // log the user in, send JWT
   const token = signToken(user._id);
@@ -206,3 +205,14 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     token,
   });
 });
+
+
+exports.updatePassword = (req, res, next) => {
+  // get user from collection
+
+  // check if POSTed current pwd is correct
+
+  // if so, update pwd
+
+  // log user in, send JWT
+}
