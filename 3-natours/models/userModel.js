@@ -75,6 +75,14 @@ userSchema.pre('save', function (next) {
   next();
 });
 
+// do not select not active users
+userSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ active: { $ne: false } }); // not equal to false
+
+  next();
+});
+
 // check entered pwd with pwd in DB, returns true or false
 userSchema.methods.correctPassword = async function (candidatePwd, userPwd) {
   return await bcrypt.compare(candidatePwd, userPwd);
