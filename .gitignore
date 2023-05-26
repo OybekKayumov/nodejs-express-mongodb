@@ -42,6 +42,8 @@ dev-data/
 public/
 config.env
 /3-natours/config.env
+/1-how-node-works/streams/
+
 # Dependency directories
 node_modules/
 jspm_packages/
