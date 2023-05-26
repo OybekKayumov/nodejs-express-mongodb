@@ -4,6 +4,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -25,6 +26,9 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
+
+// Setting Security HTTP Headers
+app.use(helmet())
 
 app.use(express.json());
 
