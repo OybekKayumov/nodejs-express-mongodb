@@ -14,11 +14,15 @@ const userRouter = require('./routes/userRoutes');
 const app = express();
 
 // 1. Global Middlewares
+// Setting Security HTTP Headers
+app.use(helmet())
+
+// development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-// 100 requests from the same IP in 1 hour 
+// Limit 100 requests from the same IP in 1 hour 
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
@@ -27,19 +31,17 @@ const limiter = rateLimit({
 
 app.use('/api', limiter);
 
-// Setting Security HTTP Headers
-app.use(helmet())
-
-app.use(express.json());
+// body parser, reading data from body into req.body
+app.use(express.json({ limit: '10kb' }));
 
 // Serving Static Files
 app.use(express.static(`${__dirname}/public`))
 
+// test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
 
-  console.log('req.headers: ', req.headers);
-
+  // console.log('req.headers: ', req.headers);
   next();
 })
 
