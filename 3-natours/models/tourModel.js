@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const User = require('./userModel');
 // eslint-disable-next-line no-unused-vars
 const validator = require('validator');
 
@@ -109,6 +110,7 @@ const tourSchema = new mongoose.Schema(
         day: Number,
       },
     ],
+    guides: Array,
   }, // virtual fields are not a part of DB
   {
     toJSON: { virtuals: true },
@@ -132,6 +134,13 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
+// Modelling Tour Guides: Embedding
+tourSchema.pre('save', async function (next) {
+  const guidesPromises = this.guides.map(async (id) => await User.findById(id));
+  this.guides = await Promise.all(guidesPromises);
+
+  next();
+});
 // tourSchema.pre('save', function (next) {
 //   console.log('Will save document...');
 
