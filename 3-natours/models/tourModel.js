@@ -172,6 +172,16 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
+// Populating Tour Guides
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides}',
+    select: '-__v -passwordChangedAt', // show data without this 2 fields
+  });
+
+  next();
+});
+
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} msec.`);
   // console.log('docs: ', docs);
