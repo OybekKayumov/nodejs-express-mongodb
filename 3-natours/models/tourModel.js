@@ -85,6 +85,17 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    startLocation: {
+      // GeoJSON
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'], // can be only 'Point'
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+    },
   }, // virtual fields are not a part of DB
   {
     toJSON: { virtuals: true },
