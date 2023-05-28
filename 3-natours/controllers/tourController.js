@@ -35,7 +35,7 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 
 exports.getTour = catchAsync(async (req, res, next) => {
   // find one item
-  const tour = await Tour.findById(req.params.id);
+  const tour = await Tour.findById(req.params.id).populate('reviews');
   //   .populate({
   //   path: 'guides}',
   //   select: '-__v -passwordChangedAt' // show data without this 2 fields
