@@ -2,9 +2,24 @@
 const express = require('express');
 const tourController = require('./../controllers/tourController');
 const authController = require('./../controllers/authController');
-const reviewController = require('./../controllers/reviewController');
+// const reviewController = require('./../controllers/reviewController');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
+
+// Nested Routes with Express
+// Implementing Simple Nested Routes
+// /POST /tour/123wer4/reviews
+// /GET /tour/123wer4/reviews/
+// /GET /tour/123wer4/reviews/987654fte
+// router
+//   .route('/:tourId/reviews')
+//   .post(
+//     authController.protect,
+//     authController.restrictTo('user'),
+//     reviewController.createReview
+//   );
+router.use('/:tourId/reviews', reviewRouter);
 
 // 100. Aliasing
 router
@@ -32,18 +47,6 @@ router
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
     tourController.deleteTour
-  );
-
-// Implementing Simple Nested Routes
-// /POST /tour/123wer4/reviews
-// /GET /tour/123wer4/reviews/
-// /GET /tour/123wer4/reviews/987654fte
-router
-  .route('/:tourId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview
   );
 
 module.exports = router;
