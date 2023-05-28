@@ -133,6 +133,13 @@ tourSchema.virtual('durationWeeks').get(function () {
   // this - pointing to the current document
 });
 
+// Virtual Populate: Tours and Reviews
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
+
 // Document middleware, runs before .save and .create, and NOT in .insertMany
 tourSchema.pre('save', function (next) {
   // console.log('this: ', this);
