@@ -1,3 +1,4 @@
+/* eslint-disable import/no-useless-path-segments */
 const Review = require('./../models/reviewModel');
 const catchAsync = require('./../utils/catchAsync');
 
