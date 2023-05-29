@@ -59,3 +59,19 @@ exports.createOne = (Model) =>
       },
     });
   });
+
+exports.getOne = (Model, populateOptions) =>
+  catchAsync(async (req, res, next) => {
+    const doc = await Model.findById(req.params.id).populate('reviews');
+
+    if (!doc) {
+      return next(new AppError('No document found with that ID', 404));
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        data: doc,
+      },
+    });
+  });
