@@ -3,7 +3,7 @@
 /* eslint-disable prefer-object-spread */
 /* eslint-disable prettier/prettier */
 const Tour = require('./../models/tourModel');
-const APIFeatures = require('./../utils/apiFeatures');
+// const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
@@ -16,24 +16,25 @@ exports.aliasTopTours = (req, res, next) => {
   next();
 };
 
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  //TODO: execute query
-  const features = new APIFeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const tours = await features.query;
+// exports.getAllTours = catchAsync(async (req, res, next) => {
+//   //TODO: execute query
+//   const features = new APIFeatures(Tour.find(), req.query)
+//     .filter()
+//     .sort()
+//     .limitFields()
+//     .paginate();
+//   const tours = await features.query;
 
-  //TODO: send response
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: {
-      tours,
-    },
-  });
-});
+//   //TODO: send response
+//   res.status(200).json({
+//     status: 'success',
+//     results: tours.length,
+//     data: {
+//       tours,
+//     },
+//   });
+// });
+exports.getAllTours = factory.getAll(Tour);
 
 // exports.getTour = catchAsync(async (req, res, next) => {
 //   // find one item
