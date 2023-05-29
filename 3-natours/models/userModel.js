@@ -53,6 +53,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+/* comment when seed DB */
 userSchema.pre('save', async function (next) {
   // only run this function if pwd was modified
   if (!this.isModified('password')) return next();
@@ -74,6 +75,7 @@ userSchema.pre('save', function (next) {
   this.passwordChangedAt = Date.now() - 1000;
   next();
 });
+/* comment when seed DB */
 
 // do not select not active users
 userSchema.pre(/^find/, function (next) {

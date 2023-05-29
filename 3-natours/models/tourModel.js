@@ -125,6 +125,10 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+// tourSchema.index({ price: 1 }); // sorting, -1
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+
 // 104. Virtual Properties
 // getter - will be created each time that we get some data out of the DB
 // so this .get() function here is called a GETTER
