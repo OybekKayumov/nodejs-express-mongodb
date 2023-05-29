@@ -1,7 +1,7 @@
 /* eslint-disable import/no-useless-path-segments */
 const catchAsync = require('./../utils/catchAsync');
-const APIFeatures = require('./../utils/apiFeatures');
 const AppError = require('./../utils/appError');
+const APIFeatures = require('./../utils/apiFeatures');
 
 exports.deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
@@ -31,7 +31,7 @@ exports.updateOne = (Model) =>
     res.status(200).json({
       status: 'success',
       data: {
-        doc,
+        data: doc,
       },
     });
   });
@@ -53,7 +53,7 @@ exports.getOne = (Model, popOptions) =>
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
 
-    const doc = query;
+    const doc = await query;
     // const doc = await Model.findById(req.params.id).populate('reviews');
 
     if (!doc) {

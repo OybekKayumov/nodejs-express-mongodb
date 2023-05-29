@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 const Tour = require('./tourModel');
-const { findByIdAndUpdate } = require('./userModel');
 
 const reviewSchema = new mongoose.Schema(
   {

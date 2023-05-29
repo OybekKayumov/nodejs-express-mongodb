@@ -186,7 +186,7 @@ tourSchema.pre(/^find/, function (next) {
 // Populating Tour Guides
 tourSchema.pre(/^find/, function (next) {
   this.populate({
-    path: 'guides}',
+    path: 'guides',
     select: '-__v -passwordChangedAt', // show data without this 2 fields
   });
 
@@ -194,7 +194,7 @@ tourSchema.pre(/^find/, function (next) {
 });
 
 tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} msec.`);
+  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
   // console.log('docs: ', docs);
 
   next();
