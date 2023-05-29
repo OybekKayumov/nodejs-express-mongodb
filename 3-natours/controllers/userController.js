@@ -14,22 +14,23 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  // res.status(500).json({
-  //   status: 'error...',
-  //   message: 'This route is not defined yet'
-  // });
-  const users = await User.find();
+// exports.getAllUsers = catchAsync(async (req, res, next) => {
+// res.status(500).json({
+//   status: 'error...',
+//   message: 'This route is not defined yet'
+// });
+//   const users = await User.find();
 
-  //TODO: send response
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users,
-    },
-  });
-});
+//   //TODO: send response
+//   res.status(200).json({
+//     status: 'success',
+//     results: users.length,
+//     data: {
+//       users,
+//     },
+//   });
+// });
+exports.getAllUsers = factory.getAll(User);
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   // create error if user POSTs password data
