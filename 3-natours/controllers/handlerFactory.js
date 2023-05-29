@@ -1,3 +1,4 @@
+/* eslint-disable import/no-useless-path-segments */
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
