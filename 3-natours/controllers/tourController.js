@@ -2,9 +2,9 @@
 /* eslint-disable import/no-useless-path-segments */
 /* eslint-disable prefer-object-spread */
 /* eslint-disable prettier/prettier */
-const Tour = require('./../models/tourModel');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+const Tour = require('../models/tourModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 
 exports.aliasTopTours = (req, res, next) => {
