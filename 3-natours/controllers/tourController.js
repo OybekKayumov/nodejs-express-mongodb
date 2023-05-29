@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-useless-path-segments */
 /* eslint-disable prefer-object-spread */
 /* eslint-disable prettier/prettier */
@@ -34,26 +35,27 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTour = catchAsync(async (req, res, next) => {
-  // find one item
-  const tour = await Tour.findById(req.params.id).populate('reviews');
-  //   .populate({
-  //   path: 'guides}',
-  //   select: '-__v -passwordChangedAt' // show data without this 2 fields
-  // }); 
-                 // Tour.findOne({ _id: req.params.id }) 
+// exports.getTour = catchAsync(async (req, res, next) => {
+//   // find one item
+//   const tour = await Tour.findById(req.params.id).populate('reviews');
+//   //   .populate({
+//   //   path: 'guides}',
+//   //   select: '-__v -passwordChangedAt' // show data without this 2 fields
+//   // }); 
+//                  // Tour.findOne({ _id: req.params.id }) 
   
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  } 
+//   if (!tour) {
+//     return next(new AppError('No tour found with that ID', 404));
+//   } 
   
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour,
-    },
-  }); 
-});
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       tour,
+//     },
+//   }); 
+// });
+exports.getTour = factory.getOne(Tour, { path: 'reviews' });
 
 // const catchAsync = fn => {
 //   return (req, res, next) => {
