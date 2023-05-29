@@ -5,6 +5,7 @@ const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const factory = require('./handlerFactory');
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
@@ -90,18 +91,19 @@ exports.updateTour = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndDelete(req.params.id);
+// exports.deleteTour = catchAsync(async (req, res, next) => {
+//   const tour = await Tour.findByIdAndDelete(req.params.id);
 
-  if (!tour) {
-    return next(new AppError('No tour found with that ID', 404));
-  } 
+//   if (!tour) {
+//     return next(new AppError('No tour found with that ID', 404));
+//   } 
   
-  res.status(204).json({  // no-content
-    status: 'success',
-    data: null,
-  });
-});
+//   res.status(204).json({  // no-content
+//     status: 'success',
+//     data: null,
+//   });
+// });
+exports.deleteTour = factory.deleteOne(Tour);
 
 // 102. Aggregation Pipeline: Matching and Grouping
 exports.getTourStats = catchAsync(async (req, res, next) => {
