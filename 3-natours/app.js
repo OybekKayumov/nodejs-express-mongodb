@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable prettier/prettier */
 // const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -17,7 +18,15 @@ const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
+// Setting up Pug in Express
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));  // /views
+
 // 1. Global Middlewares
+// Serving Static Files
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Setting Security HTTP Headers
 app.use(helmet());
 
@@ -58,9 +67,6 @@ app.use(
     ]
   })
 );
-
-// Serving Static Files
-app.use(express.static(`${__dirname}/public`));
 
 // test middleware
 app.use((req, res, next) => {
