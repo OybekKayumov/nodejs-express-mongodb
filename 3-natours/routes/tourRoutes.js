@@ -31,6 +31,10 @@ router
 // /tours-within/233/center/-40,45/unit/mi
 
 router
+  .route('/:distance/center/:latlng/unit/:unit')
+  .get(tourController.getDistances);
+
+router
   // .route('/api/v1/tours')
   .route('/')
   .get(tourController.getAllTours)
