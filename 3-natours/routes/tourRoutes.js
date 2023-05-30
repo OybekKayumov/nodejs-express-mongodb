@@ -23,6 +23,14 @@ router
     tourController.getMonthlyPlan
   );
 
+// Geospatial Queries: Finding Tours Within Radius
+router.route(
+  '/tours-within/:distance/center/:latlng/unit/:unit',
+  tourController.getToursWithin
+);
+// /tours-within?distance=233&center=-40,45&unit=mi
+// /tours-within/233/center/-40,45/unit/mi
+
 router
   // .route('/api/v1/tours')
   .route('/')

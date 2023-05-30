@@ -38,6 +38,17 @@ bower_components
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release
 
+app-143.js
+app-copy.js
+server93.js
+tourRoutes-89.js
+authController-148.js
+tourController-89.js
+tourController-101.js
+tourController-116.js
+tourController-163.js
+userController-163.js
+
 dev-data/
 public/
 config.env
