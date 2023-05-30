@@ -203,12 +203,12 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 
 // 107. Aggregation Middleware
-tourSchema.pre('aggregate', function (next) {
-  // add at the beginning of array
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+// tourSchema.pre('aggregate', function (next) {
+// add at the beginning of array
+// this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 
-  next();
-});
+// next();
+// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 
