@@ -16,7 +16,7 @@ block content
 
     .heading-box
       h1.heading-primary
-        span= tour.name
+        span= `${tour.name} tour`
       .heading-box__group
         .heading-box__detail
           svg.heading-box__icon
@@ -52,20 +52,19 @@ block content
               - if (guide.role === 'guide')
                 span.overview-box__label Tour guide
               span.overview-box__text= guide.name
-          
 
     .description-box
-      h2.heading-secondary.ma-bt-lg About the park camper tour
-      p.description__text Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      p.description__text Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum!
+      h2.heading-secondary.ma-bt-lg= `About ${tour.name} tour`
+
+      - const para = tour.description.split('\n');
+
+      each p in para
+        p.description__text= p
 
   section.section-pictures
-    .picture-box
-      img.picture-box__img.picture-box__img--1(src='/img/tour-5-1.jpg', alt='The Park Camper Tour 1')
-    .picture-box
-      img.picture-box__img.picture-box__img--2(src='/img/tour-5-2.jpg', alt='The Park Camper Tour 1')
-    .picture-box
-      img.picture-box__img.picture-box__img--3(src='/img/tour-5-3.jpg', alt='The Park Camper Tour 1')
+    each img, ind in tour.images
+      .picture-box
+        img.picture-box__img(src=`/img/tours/${img}`, alt=`The Park Camper Tour ${ind + 1}` class=`.picture-box__img--${ind + 1}`)
 
   section.section-map
     #map
