@@ -22,9 +22,13 @@ const multerFilter = (req, file, cb) => {
   } else {
     cb(new AppError('Not an image! Please upload only images.', 400), false);
   }
-}
+};
 
-const upload = multer({ dest: 'public/img/users' });
+// const upload = multer({ dest: 'public/img/users' });
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
 
 exports.uploadUserPhoto = upload.single('photo');
 
