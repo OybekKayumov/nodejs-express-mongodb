@@ -11,3 +11,6 @@
     
     "debug": "ndb server.js"
   
+### parcel watch cmd
+
+      npm run watch:js
