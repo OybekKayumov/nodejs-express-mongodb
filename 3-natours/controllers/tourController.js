@@ -30,8 +30,13 @@ exports.uploadTourImages = upload.fields([
   { name : 'images', maxCount: 3 },
 ]);
 
-// upload.single('image')
-// upload.array('images', 5);
+// upload.single('image')      req.file
+// upload.array('images', 5);  req.files
+
+exports.resizeTourImages = (req, res, next) => {
+
+  next();
+};
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
