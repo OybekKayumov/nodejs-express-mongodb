@@ -104,7 +104,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
       10
     );
 
-    console.log(': ', this.passwordChangedAt, JWTTimestamp);
+    // console.log(': ', this.passwordChangedAt, JWTTimestamp);
     return JWTTimestamp < changedTimestamp;
   }
 

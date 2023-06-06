@@ -184,7 +184,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    result: tours.length,
+    results: tours.length,
     data: {
       data: tours,
     }
@@ -197,7 +197,7 @@ exports.getDistances = catchAsync(async (req, res, next) => {
 
   const multiplier = unit === 'mi' ? 0.000621371 : 0.001;
 
-  if(!lat || !lng) {
+  if (!lat || !lng) {
     next(
       new AppError(
         'Please provide latitude and longitude in the format lat, lng.',
@@ -213,8 +213,8 @@ exports.getDistances = catchAsync(async (req, res, next) => {
           coordinates: [lng * 1, lat * 1],
         },
         distanceField: 'distance',
-        // distanceMultiplier: 0.001, // in km
         distanceMultiplier: multiplier,
+        // distanceMultiplier: 0.001, // in km
       }
     },
     {
@@ -230,5 +230,5 @@ exports.getDistances = catchAsync(async (req, res, next) => {
     data: {
       data: distances,
     }
-  })
+  });
 });

@@ -28,7 +28,7 @@ module.exports = class Email {
       // service: 'Gmail',
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
-      secure: false,
+      // secure: false,
       auth: {
         user: process.env.EMAIL_USERNAME,
         pass: process.env.EMAIL_PASSWORD,
@@ -59,42 +59,13 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send(`Welcome`, 'Welcome to the Natours Family!');
+    await this.send('welcome', 'Welcome to the Natours Family!');
   }
 
   async sendPasswordReset() {
     await this.send(
       'passwordReset',
-      'Your password reset token (valid for only 10 minutes'
+      'Your password reset token (valid for only 10 minutes)'
     );
   }
 };
-
-// const sendEmail = async (options) => {
-// create a transporter
-// const transporter = nodemailer.createTransport({
-//   // service: 'Gmail',
-//   host: process.env.EMAIL_HOST,
-//   port: process.env.EMAIL_PORT,
-//   secure: false,
-//   auth: {
-//     user: process.env.EMAIL_USERNAME,
-//     pass: process.env.EMAIL_PASSWORD,
-//   },
-
-//   // activate in gmail 'less secure app' option
-// });
-// define the email options
-// const mailOptions = {
-//   from: 'John Doe <hello@mails.io>',
-//   to: options.email,
-//   subject: options.subject,
-//   text: options.message,
-//   // html:
-// };
-
-// send email with nodemailer
-// await transporter.sendMail(mailOptions);
-// };
-
-// module.exports = sendEmail;
