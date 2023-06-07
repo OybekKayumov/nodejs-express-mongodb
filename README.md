@@ -14,3 +14,5 @@
 ### parcel watch cmd
 
       npm run watch:js
+
+### npm run dev
