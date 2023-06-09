@@ -32,6 +32,9 @@ app.set('views', path.join(__dirname, 'views'));  // /views
 // 1. Global Middlewares
 app.use(cors());
 
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
+
 // Serving Static Files
 // app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, 'public')));
