@@ -1,6 +1,8 @@
 # nodejs-express-mongodb
 ### cd 3-natours
 
+   npm i
+
    npm start
 
    npm run debug
@@ -11,8 +13,13 @@
     
     "debug": "ndb server.js"
   
-### parcel watch cmd
+### parcel watch command
 
       npm run watch:js
 
-### npm run dev
+### start project
+
+      npm run dev
+
+
+# 06 2023
