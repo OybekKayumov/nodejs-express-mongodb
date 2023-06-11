@@ -52,8 +52,9 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
   req.body.images = [];
 
   await Promise.all(
-    req.files.images.map(async (file, ind) => {
-      const filename = `tour-${req.params.id}-${Date.now()}-${ind + 1}.jpeg`;
+    req.files.images.map(async (file, i) => {
+      const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+
       await sharp(file.buffer)
         .resize(2000, 1333)
         .toFormat('jpeg')
@@ -179,7 +180,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
   }
 
   const tours = await Tour.find({
-    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius ] } } 
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } } 
   });
 
   res.status(200).json({

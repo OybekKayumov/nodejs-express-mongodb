@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
 // eslint-disable-next-line no-unused-vars
-const validator = require('validator');
+// const validator = require('validator');
 // const User = require('./userModel');
 
 const tourSchema = new mongoose.Schema(
@@ -195,12 +195,12 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.post(/^find/, function (docs, next) {
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  // console.log('docs: ', docs);
+// tourSchema.post(/^find/, function (docs, next) {
+//   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+//   // console.log('docs: ', docs);
 
-  next();
-});
+//   next();
+// });
 
 // 107. Aggregation Middleware
 // tourSchema.pre('aggregate', function (next) {
